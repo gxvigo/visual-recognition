@@ -119,5 +119,47 @@ The result gives us already a lot of information about the picture:
 }
 ```
   
-  
-  BOOKMARK
+The same result can be obtained uploading an image instead of passing an URL. Below the CURL syntax, the image is stored in the same folder where the CURL command is executed.
+
+``` sh
+  curl -X POST -F "images_file=@motorcycle.jpg" "https://watson-api-explorer.mybluemix.net/visual-recognition/api/v3/classify?api_key=${api_key}&classifier_ids=default&version=2016-05-20"
+```
+
+As before we got a response from the default classifier with information about the object in the image:
+
+```
+{
+    "custom_classes": 0,
+    "images": [
+        {
+            "classifiers": [
+                {
+                    "classes": [
+                        {
+                            "class": "motorcycle",
+                            "score": 0.979,
+                            "type_hierarchy": "/vehicle/wheeled vehicle/motorcycle"
+                        },
+                        {
+                            "class": "wheeled vehicle",
+                            "score": 0.979
+                        },
+                        {
+                            "class": "vehicle",
+                            "score": 0.979
+                        },
+                        {
+                            "class": "maroon color",
+                            "score": 0.962
+                        }
+                    ],
+                    "classifier_id": "default",
+                    "name": "default"
+                }
+            ],
+            "image": "motorcycle.jpg"
+        }
+    ],
+    "images_processed": 1
+}
+```
