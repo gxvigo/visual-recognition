@@ -170,6 +170,8 @@ Visual recognition offers a specific API to detect faces. The API return the car
 
 As before just find a picture from internet and save the URL in a variable:
 
+  ![Face](README_images/Valentino_Rossi_2010_Qatar.jpg)
+
 ``` sh
  $ export image_url=https://upload.wikimedia.org/wikipedia/commons/8/81/Valentino_Rossi_2010_Qatar.jpg
 ``` 
@@ -218,3 +220,68 @@ And details about the person in the picture.
     "images_processed": 1
 }
 ```
+
+Now let's move on and see how to teach something to Watson
+
+## Creating a custom classifier.
+
+It's possible to extend the 'knowledge' of Visual Recognition service creating classifiers and training the service feeding it with images. 
+A classifier is a container of classes, it's a convenient way to organize different topics. 
+Classes are specific objects or caracteristics we want to be regognized.
+Training is done uploading to Visual Recognition an archive (zip) of pictures for each class. Recommended number of images per class is 150-200, above 5000 there's no real improvement. Training doesn't have to be done in one go.  
+
+For this example I am going to create a classifier for motorbike tyres, and two classes, one for new tyres the other one for used tyres. I then passed a set of negative picures (not new or used motorbike tyres, such as bicycle or truck tyres).
+
+Let's use some APIs for this.
+
+``` sh
+  curl -X POST  -F "bikeTyreUsed_positive_examples=@moto_tyre_used.zip" -F "bikeTyreNew_positive_examples=@moto_tyre_new.zip" -F "bikeTyre_negative_examples=@moto_tyre_used.zip" -F "name=bikeTyres" "https://watson-api-explorer.mybluemix.net/visual-recognition/api/v3/classifiers?api_key=${api_key}&version=2016-05-20"
+```
+The service return some details about the classifier (important to note down the classifier_id) and the status of the classifier. In the first response the status will be 'training'. Depending on the number of images to analyze, the training can take from few minutes to few hours.
+
+``` sh
+{
+    "classifier_id": "bikeTyres_77196102",
+    "name": "bikeTyres",
+    "owner": "f7ffaf4b-1ec4-4ffe-a873-a8a91197e60a",
+    "status": "training",
+    "created": "2017-08-10T04:06:48.573Z",
+    "classes": [
+        {"class": "bikeTyreUsed"},
+        {"class": "bikeTyreNew"}
+    ]
+}
+```
+
+To check the status of a classifier (training completed) just send a GET request to the same endpoint.
+
+``` sh
+  $ curl -X GET "https://watson-api-explorer.mybluemix.net/visual-recognition/api/v3/classifiers/bikeTyres_77196102?api_key=${api_key}&version=2016-05-20"
+```
+
+Now the classifier is ready to be used
+
+``` sh
+{
+    "classifier_id": "bikeTyres_77196102",
+    "name": "bikeTyres",
+    "owner": "f7ffaf4b-1ec4-4ffe-a873-a8a91197e60a",
+    "status": "ready",
+    "created": "2017-08-10T04:06:48.573Z",
+    "classes": [
+        {"class": "bikeTyreUsed"},
+        {"class": "bikeTyreNew"}
+    ]
+}
+```
+
+STUFF
+
+The free tier of the service allow 1 classifier, to delete the current classifier and upload a new one it's possible to use a specific API
+
+``` sh
+ $ curl -X DELETE "https://watson-api-explorer.mybluemix.net/visual-recognition/api/v3/classifiers/fruitbowls_1692746911?api_key=39ce25c61452cadf066ed34c612cbf59530232fc&version=2016-05-20"
+
+```
+
+
