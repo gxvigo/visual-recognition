@@ -181,7 +181,7 @@ And invoke the API (this is a different endpoint)
 ```
 
 And details about the person in the picture.   
-***Note: if you don't know Valentino Rossi, please pause here and go and watch some awesome motorcycle race"
+***Note: if you don't know Valentino Rossi, please pause here and go and watch some awesome motorcycle race"***
 
 ``` sh
 {
