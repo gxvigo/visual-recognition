@@ -163,3 +163,58 @@ As before we got a response from the default classifier with information about t
     "images_processed": 1
 }
 ```
+
+## Recognize a face using 'default' classifier.
+
+Visual recognition offers a specific API to detect faces. The API return the caracteristic of the person in the picture and in many cases can detect whether it's a celebrity.
+
+As before just find a picture from internet and save the URL in a variable:
+
+``` sh
+ $ export image_url=https://upload.wikimedia.org/wikipedia/commons/8/81/Valentino_Rossi_2010_Qatar.jpg
+``` 
+
+And invoke the API (this is a different endpoint)
+
+``` sh
+  $ curl -X GET "https://watson-api-explorer.mybluemix.net/visual-recognition/api/v3/detect_faces?url=${image_url}&version=2016-05-20"
+```
+
+And details about the person in the picture.   
+***Note: if you don't know Valentino Rossi, please pause here and go and watch some awesome motorcycle race"
+
+``` sh
+{
+    "images": [
+        {
+            "faces": [
+                {
+                    "age": {
+                        "max": 24,
+                        "min": 18,
+                        "score": 0.677153
+                    },
+                    "face_location": {
+                        "height": 395,
+                        "left": 148,
+                        "top": 172,
+                        "width": 316
+                    },
+                    "gender": {
+                        "gender": "MALE",
+                        "score": 0.993307
+                    },
+                    "identity": {
+                        "name": "Valentino Rossi",
+                        "score": 0.880797,
+                        "type_hierarchy": "/riders/valentino rossi"
+                    }
+                }
+            ],
+            "resolved_url": "https://upload.wikimedia.org/wikipedia/commons/8/81/Valentino_Rossi_2010_Qatar.jpg",
+            "source_url": "https://upload.wikimedia.org/wikipedia/commons/8/81/Valentino_Rossi_2010_Qatar.jpg"
+        }
+    ],
+    "images_processed": 1
+}
+```
