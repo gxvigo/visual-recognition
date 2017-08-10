@@ -34,6 +34,8 @@ Let's start now with the usage scenarios
 In this scenario we are going to use the default classifier and passing a random image from internet.
 For convenience we will store the URL into a variable as we did with the api_key.
 
+  ![Car](README_images/152m-laterale-2560.jpg)
+
 ``` sh
 $ export image_url=http://static.812superfast.ferrari.com/includes/20170309/img/50.pages.01.homepage/03.Exterior-design/01/152m-laterale-2560.jpg
 ```  
